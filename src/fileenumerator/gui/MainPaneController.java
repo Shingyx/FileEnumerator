@@ -28,9 +28,12 @@ public class MainPaneController {
   @FXML
   private ListView<File> fileListView;
   @FXML
+  private TextField txtFilenameEditor;
+  @FXML
   private TextField txtTargetFilename;
 
   private ObservableList<File> files;
+  private int lastCaretPos;
 
   /**
    * Set up the GUI to have a minimum size, appropriate behaviour on file drag, and drag selection
@@ -40,6 +43,7 @@ public class MainPaneController {
    */
   public void setupController(Stage stage) {
     files = FXCollections.observableArrayList();
+    lastCaretPos = -1;
 
     // Set min window size
     stage.setMinHeight(480);
@@ -64,6 +68,28 @@ public class MainPaneController {
 
     // Set up list to drag-select by default. TODO: Drag and drop mode toggle option
     setupSelectionMode(true);
+
+    txtFilenameEditor.setOnMouseClicked(event -> {
+      String filename = txtFilenameEditor.getText();
+
+      int start = txtFilenameEditor.getCaretPosition();
+      while (start > 0 && Character.isDigit(filename.charAt(start - 1))) {
+        start--;
+      }
+      if (start >= filename.length() || !Character.isDigit(filename.charAt(start))) {
+        return;
+      }
+
+      int end = start;
+      while (end < filename.length() && Character.isDigit(filename.charAt(end))) {
+        end++;
+      }
+
+      txtFilenameEditor.positionCaret(start);
+      txtFilenameEditor.selectPositionCaret(end);
+
+      lastCaretPos = start;
+    });
   }
 
   /**
@@ -76,9 +102,8 @@ public class MainPaneController {
       Dragboard dragboard = event.getDragboard();
       if (dragboard.hasFiles()) {
         event.acceptTransferModes(TransferMode.COPY);
-      } else {
-        event.consume();
       }
+      event.consume();
     });
 
     scene.setOnDragDropped(event -> {
@@ -130,11 +155,11 @@ public class MainPaneController {
           }
         };
 
-        cell.setOnMouseClicked(event -> {
-          if (cell.getItem() == null) {
-            return;
+        cell.selectedProperty().addListener((observable, oldValue, newValue) -> {
+          if (newValue) {
+            txtFilenameEditor.setText(cell.getText());
+            lastCaretPos = -1;
           }
-          txtTargetFilename.setText(cell.getText());
         });
 
         if (dragSelectionMode) {
@@ -142,7 +167,6 @@ public class MainPaneController {
             if (cell.getItem() == null) {
               return;
             }
-
             Dragboard dragboard = cell.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
             content.putString(cell.getText());
@@ -160,7 +184,6 @@ public class MainPaneController {
             if (!event.getDragboard().hasFiles()) {
               event.acceptTransferModes(TransferMode.ANY);
               cell.getListView().getSelectionModel().select(cell.getIndex());
-              txtTargetFilename.setText(cell.getText());
             }
             event.consume();
           });
@@ -176,14 +199,26 @@ public class MainPaneController {
   }
 
   /**
+   * Reset all the fields and values related to setting filenames.
+   */
+  private void resetFields() {
+    txtFilenameEditor.setText(null);
+    txtTargetFilename.setText(null);
+    lastCaretPos = -1;
+  }
+
+  /**
    * Move all selected items to the top.
-   *
-   * @param event Event when button is clicked
    */
   @FXML
-  private void moveSelectedToTop(ActionEvent event) {
+  private void moveSelectedToTop() {
     // Put selected items at front of new list
     List<File> newFiles = new ArrayList<>(fileListView.getSelectionModel().getSelectedItems());
+    if (files.isEmpty()) {
+      System.out.println("No files loaded in application");
+    } else if (newFiles.isEmpty()) {
+      System.out.println("No files selected");
+    }
     File first = newFiles.get(0);
     File last = newFiles.get(newFiles.size() - 1);
 
@@ -197,11 +232,44 @@ public class MainPaneController {
 
   /**
    * Apply the default sorting method.
-   *
-   * @param event Event when button is clicked
    */
   @FXML
-  private void defaultSortFiles(ActionEvent event) {
+  private void defaultSortFiles() {
     files.sort(Comparator.<File>naturalOrder());
+  }
+
+  /**
+   * Mark highlighted text for enumeration
+   */
+  @FXML
+  private void markForEnumeration() {
+    String targetFilename = txtFilenameEditor.getText();
+    if (lastCaretPos >= 0) {
+      int start = lastCaretPos;
+      int end = start;
+      while (end < targetFilename.length() && Character.isDigit(targetFilename.charAt(end))) {
+        end++;
+      }
+      String before = targetFilename.substring(0, start);
+      String after = targetFilename.substring(end, targetFilename.length());
+
+      int numLen = (int) Math.log10(files.size()) + 1;
+
+      // Replace int in middle with format including leading zeroes
+      String format = String.format("%s%%0%dd%s", before, numLen, after);
+
+      txtTargetFilename.setText(format);
+    } else {
+      System.out.println("Wot");
+    }
+  }
+
+  /**
+   * Clear the list of all files.
+   */
+  @FXML
+  private void clearList() {
+    files.clear();
+    resetFields();
   }
 }

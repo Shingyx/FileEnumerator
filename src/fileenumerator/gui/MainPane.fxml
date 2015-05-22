@@ -20,6 +20,7 @@
           <Menu mnemonicParsing="false" text="Edit">
             <items>
               <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" text="Clear" onAction="#clearList" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -40,8 +41,11 @@
                <children>
                   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#moveSelectedToTop" text="Move to Top" />
                   <Button layoutX="14.0" layoutY="54.0" mnemonicParsing="false" onAction="#defaultSortFiles" text="Default Sort" />
-                   <Label layoutX="14.0" layoutY="142.0" text="Target Filename:" />
-                  <TextField fx:id="txtTargetFilename" layoutX="14.0" layoutY="159.0" prefHeight="25.0" prefWidth="344.0" promptText="Select a file" />
+                   <Label layoutX="14.0" layoutY="142.0" text="Filename Editing:" />
+                  <TextField fx:id="txtFilenameEditor" layoutX="14.0" layoutY="159.0" prefHeight="25.0" prefWidth="344.0" promptText="Select a file" />
+                  <Button defaultButton="true" layoutX="14.0" layoutY="194.0" mnemonicParsing="false" onAction="#markForEnumeration" text="Mark for Enumeration" />
+                  <Label layoutX="14.0" layoutY="244.0" text="Target Filename:" />
+                  <TextField fx:id="txtTargetFilename" editable="false" layoutX="14.0" layoutY="261.0" prefHeight="25.0" prefWidth="344.0" promptText="Target not set" />
                </children></AnchorPane>
         </items>
       </SplitPane>
