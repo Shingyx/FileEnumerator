@@ -30,8 +30,8 @@ public class Main extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/MainPane.fxml"));
-    Parent root = loader.load();
-    MainPaneController mainPaneController = loader.getController();
+    final Parent root = loader.load();
+    final MainPaneController mainPaneController = loader.getController();
 
     primaryStage.setTitle("File Enumerator");
     primaryStage.setScene(new Scene(root));
