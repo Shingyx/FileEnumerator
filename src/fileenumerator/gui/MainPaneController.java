@@ -2,6 +2,7 @@ package fileenumerator.gui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -9,10 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -27,7 +28,7 @@ public class MainPaneController {
   @FXML
   private ListView<File> fileListView;
   @FXML
-  private Button btnMoveToTop;
+  private TextField txtTargetFilename;
 
   private ObservableList<File> files;
 
@@ -59,7 +60,10 @@ public class MainPaneController {
     }
 
     // Set up the list view
-    setupFileListView();
+    setupListView();
+
+    // Set up list to drag-select by default. TODO: Drag and drop mode toggle option
+    setupSelectionMode(true);
   }
 
   /**
@@ -106,7 +110,13 @@ public class MainPaneController {
   /**
    * Set the file list view up to enable drag selection and display only filenames.
    */
-  private void setupFileListView() {
+  private void setupListView() {
+    fileListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+    fileListView.setItems(files);
+  }
+
+  private void setupSelectionMode(boolean dragSelectionMode) {
     fileListView.setCellFactory(new Callback<ListView<File>, ListCell<File>>() {
       @Override
       public ListCell<File> call(ListView<File> param) {
@@ -120,40 +130,49 @@ public class MainPaneController {
           }
         };
 
-        cell.setOnDragDetected(event -> {
+        cell.setOnMouseClicked(event -> {
           if (cell.getItem() == null) {
             return;
           }
-
-          Dragboard dragboard = cell.startDragAndDrop(TransferMode.ANY);
-          ClipboardContent content = new ClipboardContent();
-          content.putString(cell.getItem().getName());
-          dragboard.setContent(content);
-
-          event.consume();
-
+          txtTargetFilename.setText(cell.getText());
         });
 
-        cell.setOnDragOver(event -> {
-          event.acceptTransferModes(TransferMode.COPY);
-          if (!event.getDragboard().hasFiles()) {
-            event.acceptTransferModes(TransferMode.ANY);
-            cell.getListView().getSelectionModel().select(cell.getIndex());
-          }
-          event.consume();
-        });
+        if (dragSelectionMode) {
+          cell.setOnDragDetected(event -> {
+            if (cell.getItem() == null) {
+              return;
+            }
 
-        cell.setOnDragDropped(event -> {
-          event.setDropCompleted(true);
-          event.consume();
-        });
+            Dragboard dragboard = cell.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(cell.getText());
+            dragboard.setContent(content);
 
+            event.consume();
+
+          });
+
+          cell.setOnDragOver(event -> {
+            event.acceptTransferModes(TransferMode.COPY);
+            if (cell.getItem() == null) {
+              return;
+            }
+            if (!event.getDragboard().hasFiles()) {
+              event.acceptTransferModes(TransferMode.ANY);
+              cell.getListView().getSelectionModel().select(cell.getIndex());
+              txtTargetFilename.setText(cell.getText());
+            }
+            event.consume();
+          });
+
+          cell.setOnDragDropped(event -> {
+            event.setDropCompleted(true);
+            event.consume();
+          });
+        }
         return cell;
       }
     });
-    fileListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-    fileListView.setItems(files);
   }
 
   /**
@@ -163,8 +182,6 @@ public class MainPaneController {
    */
   @FXML
   private void moveSelectedToTop(ActionEvent event) {
-    System.out.println("Hello World!");
-
     // Put selected items at front of new list
     List<File> newFiles = new ArrayList<>(fileListView.getSelectionModel().getSelectedItems());
     File first = newFiles.get(0);
@@ -176,5 +193,15 @@ public class MainPaneController {
 
     // Refresh the list
     files.setAll(newFiles);
+  }
+
+  /**
+   * Apply the default sorting method.
+   *
+   * @param event Event when button is clicked
+   */
+  @FXML
+  private void defaultSortFiles(ActionEvent event) {
+    files.sort(Comparator.<File>naturalOrder());
   }
 }
