@@ -20,7 +20,7 @@
           <Menu mnemonicParsing="false" text="Edit">
             <items>
               <MenuItem mnemonicParsing="false" text="Delete" />
-              <MenuItem mnemonicParsing="false" text="Clear" onAction="#clearList" />
+              <MenuItem mnemonicParsing="false" onAction="#clearList" text="Clear" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -45,7 +45,8 @@
                   <TextField fx:id="txtFilenameEditor" layoutX="14.0" layoutY="159.0" prefHeight="25.0" prefWidth="344.0" promptText="Select a file" />
                   <Button defaultButton="true" layoutX="14.0" layoutY="194.0" mnemonicParsing="false" onAction="#markForEnumeration" text="Mark for Enumeration" />
                   <Label layoutX="14.0" layoutY="244.0" text="Target Filename:" />
-                  <TextField fx:id="txtTargetFilename" editable="false" layoutX="14.0" layoutY="261.0" prefHeight="25.0" prefWidth="344.0" promptText="Target not set" />
+                  <TextField fx:id="txtTargetFormat" editable="false" layoutX="14.0" layoutY="261.0" prefHeight="25.0" prefWidth="344.0" promptText="Target not set" />
+                  <Button layoutX="14.0" layoutY="310.0" mnemonicParsing="false" onAction="#enumerateFiles" text="Enumerate!" />
                </children></AnchorPane>
         </items>
       </SplitPane>

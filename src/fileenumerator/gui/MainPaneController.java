@@ -7,7 +7,6 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
@@ -30,7 +29,7 @@ public class MainPaneController {
   @FXML
   private TextField txtFilenameEditor;
   @FXML
-  private TextField txtTargetFilename;
+  private TextField txtTargetFormat;
 
   private ObservableList<File> files;
   private int lastCaretPos;
@@ -203,7 +202,7 @@ public class MainPaneController {
    */
   private void resetFields() {
     txtFilenameEditor.setText(null);
-    txtTargetFilename.setText(null);
+    txtTargetFormat.setText(null);
     lastCaretPos = -1;
   }
 
@@ -258,7 +257,7 @@ public class MainPaneController {
       // Replace int in middle with format including leading zeroes
       String format = String.format("%s%%0%dd%s", before, numLen, after);
 
-      txtTargetFilename.setText(format);
+      txtTargetFormat.setText(format);
     } else {
       System.out.println("Wot");
     }
@@ -271,5 +270,32 @@ public class MainPaneController {
   private void clearList() {
     files.clear();
     resetFields();
+  }
+
+  /**
+   * Enumerate all files in the list using the string format in whatever order the list is in.
+   */
+  @FXML
+  private void enumerateFiles() {
+    if (txtTargetFormat.getText().isEmpty()) {
+      System.out.println("No template chosen");
+      return;
+    }
+
+    String format = txtTargetFormat.getText();
+    List<File> newFiles = new ArrayList<>();
+
+    for (int i = 0; i < files.size(); i++) {
+      File file = files.get(i);
+      String newFilename = String.format(format, i + 1);
+      File newFile = new File(file.getParent() + File.separator + newFilename);
+      if (!file.renameTo(newFile)) {
+        System.out.println("file couldn't be renamed?");
+      } else {
+        newFiles.add(newFile);
+      }
+    }
+
+    files.setAll(newFiles);
   }
 }
