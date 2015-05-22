@@ -14,6 +14,7 @@ public class Main extends Application {
 
   /**
    * Main method to launch application.
+   *
    * @param args Command line arguments
    */
   public static void main(String[] args) {
@@ -22,6 +23,7 @@ public class Main extends Application {
 
   /**
    * Launch the application.
+   *
    * @param primaryStage The primary stage
    * @throws Exception Something went wrong or something?
    */
@@ -32,7 +34,7 @@ public class Main extends Application {
     MainPaneController mainPaneController = loader.getController();
 
     primaryStage.setTitle("File Enumerator");
-    primaryStage.setScene(new Scene(root, 300, 275));
+    primaryStage.setScene(new Scene(root));
 
     mainPaneController.setupController(primaryStage);
 
