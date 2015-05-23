@@ -215,8 +215,10 @@ public class MainPaneController {
     List<File> newFiles = new ArrayList<>(fileListView.getSelectionModel().getSelectedItems());
     if (files.isEmpty()) {
       System.out.println("No files loaded in application");
+      return;
     } else if (newFiles.isEmpty()) {
       System.out.println("No files selected");
+      return;
     }
     File first = newFiles.get(0);
     File last = newFiles.get(newFiles.size() - 1);
