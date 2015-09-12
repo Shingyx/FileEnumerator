@@ -12,32 +12,32 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-  /**
-   * Main method to launch application.
-   *
-   * @param args Command line arguments
-   */
-  public static void main(String[] args) {
-    launch(args);
-  }
+    /**
+     * Main method to launch application.
+     *
+     * @param args Command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-  /**
-   * Launch the application.
-   *
-   * @param primaryStage The primary stage
-   * @throws Exception Something went wrong or something?
-   */
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/MainPane.fxml"));
-    final Parent root = loader.load();
-    final MainPaneController mainPaneController = loader.getController();
+    /**
+     * Launch the application.
+     *
+     * @param primaryStage The primary stage
+     * @throws Exception Something went wrong or something?
+     */
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/MainPane.fxml"));
+        final Parent root = loader.load();
+        final MainPaneController mainPaneController = loader.getController();
 
-    primaryStage.setTitle("File Enumerator");
-    primaryStage.setScene(new Scene(root));
+        primaryStage.setTitle("File Enumerator");
+        primaryStage.setScene(new Scene(root));
 
-    mainPaneController.setupController(primaryStage);
+        mainPaneController.setupController(primaryStage);
 
-    primaryStage.show();
-  }
+        primaryStage.show();
+    }
 }
