@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -8,27 +9,12 @@
 
 <VBox fx:id="folderCreationContainer" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fileenumerator.gui.FolderCreationController">
    <children>
-      <HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="25.0">
          <children>
-            <Label prefHeight="25.0" prefWidth="120.0" text="Directory:" />
-            <Label fx:id="directoryLabel" prefHeight="25.0" prefWidth="400.0" />
-         </children>
-      </HBox>
-      <HBox>
-         <children>
-            <Label prefHeight="25.0" prefWidth="120.0" text="Filename:" />
-            <Label fx:id="filenameLabel" prefHeight="25.0" prefWidth="400.0" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </HBox>
-      <HBox>
-         <children>
-            <Label prefHeight="25.0" prefWidth="120.0" text="Target Folder:" />
+            <Label prefWidth="120.0" text="Directory:" />
             <AnchorPane HBox.hgrow="ALWAYS">
                <children>
-                  <TextField fx:id="targetFolderField" prefHeight="25.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="directoryLabel" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </children>
@@ -36,6 +22,39 @@
             <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="25.0">
+         <children>
+            <Label prefWidth="120.0" text="Filename:" />
+            <AnchorPane HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="filenameLabel" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="25.0">
+         <children>
+            <Label prefWidth="120.0" text="Target Folder:">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Label>
+            <AnchorPane HBox.hgrow="ALWAYS">
+               <children>
+                  <TextField fx:id="targetFolderField" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="TOP_RIGHT">
+         <children>
+            <Button fx:id="btnCreateFolder" mnemonicParsing="false" onAction="#createFolder" text="Create Folder" />
+         </children></HBox>
    </children>
    <padding>
       <Insets bottom="30.0" left="30.0" right="40.0" top="30.0" />

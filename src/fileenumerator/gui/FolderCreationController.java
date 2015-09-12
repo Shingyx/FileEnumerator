@@ -42,19 +42,38 @@ public class FolderCreationController {
                 File file = dragboard.getFiles().get(0);
                 String directory = file.getParentFile().getAbsolutePath();
                 String filename = file.getName();
-                String targetFolder;
+                String targetFolderName;
                 directoryLabel.setText(directory);
                 filenameLabel.setText(filename);
                 if (file.isFile()) {
-                    targetFolder = (filename.substring(0, filename.lastIndexOf('.')));
+                    targetFolderName = (filename.substring(0, filename.lastIndexOf('.')));
                 } else {
-                    targetFolder = filename;
+                    targetFolderName = filename;
                 }
-                targetFolderField.setText(targetFolder);
+                targetFolderField.setText(targetFolderName);
 
                 event.setDropCompleted(true);
                 event.consume();
             }
         });
+    }
+
+    /**
+     * Handle the action of clicking the create folder button.
+     */
+    @FXML
+    private void createFolder() {
+        String directory = directoryLabel.getText();
+        String targetFolderName = targetFolderField.getText();
+        File targetFolder = new File(directory, targetFolderName);
+        System.out.println(targetFolder);
+        if (targetFolder.exists()) {
+            System.out.println("Target folder already exists");
+        } else {
+            boolean result = targetFolder.mkdir();
+            if (!result) {
+                System.out.println("Could not create folder due to security settings");
+            }
+        }
     }
 }
