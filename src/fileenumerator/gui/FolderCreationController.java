@@ -2,6 +2,7 @@ package fileenumerator.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.Dragboard;
@@ -66,14 +67,26 @@ public class FolderCreationController {
         String directory = directoryLabel.getText();
         String targetFolderName = targetFolderField.getText();
         File targetFolder = new File(directory, targetFolderName);
-        System.out.println(targetFolder);
+
+        Alert.AlertType alertType;
+        String message;
         if (targetFolder.exists()) {
-            System.out.println("Target folder already exists");
+            alertType = Alert.AlertType.WARNING;
+            message = "Target folder already exists";
         } else {
             boolean result = targetFolder.mkdir();
-            if (!result) {
-                System.out.println("Could not create folder due to security settings");
+            if (result) {
+                alertType = Alert.AlertType.INFORMATION;
+                message = "Folder successfully created";
+            } else {
+                alertType = Alert.AlertType.ERROR;
+                message = "Could not create folder due to security settings";
             }
         }
+        Alert alert = new Alert(alertType);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
