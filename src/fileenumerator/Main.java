@@ -1,6 +1,6 @@
 package fileenumerator;
 
-import fileenumerator.gui.MainPaneController;
+import fileenumerator.gui.ContainerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Main application to run. Load the view and pass over control to the controller.
+ * Main application to run. Load the view and set it up then pass over control to the controllers.
  */
 public class Main extends Application {
 
@@ -29,14 +29,14 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/MainPane.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/Container.fxml"));
         final Parent root = loader.load();
-        final MainPaneController mainPaneController = loader.getController();
+        final ContainerController containerController = loader.getController();
 
         primaryStage.setTitle("File Enumerator");
         primaryStage.setScene(new Scene(root));
 
-        mainPaneController.setupController(primaryStage);
+        containerController.setupController(primaryStage);
 
         primaryStage.show();
     }

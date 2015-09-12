@@ -20,9 +20,10 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Main controller for the GUI.
+ * Main controller for the tab which enumerates files.
+ * // todo redesign gui
  */
-public class MainPaneController {
+public class EnumeratorController {
 
     @FXML
     private ListView<File> fileListView;
@@ -265,14 +266,15 @@ public class MainPaneController {
         }
     }
 
-    /**
-     * Clear the list of all files.
-     */
-    @FXML
-    private void clearList() {
-        files.clear();
-        resetFields();
-    }
+//    /**
+//     * Clear the list of all files.
+//     */
+//    @FXML
+//    private void clearList() {
+//    // todo call this somewhere
+//        files.clear();
+//        resetFields();
+//    }
 
     /**
      * Enumerate all files in the list using the string format in whatever order the list is in.
