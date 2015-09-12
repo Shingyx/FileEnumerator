@@ -1,6 +1,5 @@
 package fileenumerator;
 
-import fileenumerator.gui.ContainerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,12 +30,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/Container.fxml"));
         final Parent root = loader.load();
-        final ContainerController containerController = loader.getController();
 
         primaryStage.setTitle("File Enumerator");
         primaryStage.setScene(new Scene(root));
 
-        containerController.setupController(primaryStage);
+        // Set min window size
+        primaryStage.setMinHeight(480);
+        primaryStage.setMinWidth(640);
+
 
         primaryStage.show();
     }
