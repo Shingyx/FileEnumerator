@@ -10,12 +10,12 @@
             <tabs>
                 <Tab text="Create Folder">
                     <content>
-                        <fx:include fx:id="folderCreation" source="FolderCreation.fxml"/>
+                        <fx:include fx:id="folderCreation" source="gui/FolderCreation.fxml"/>
                     </content>
                 </Tab>
                 <Tab text="File Enumerator">
                     <content>
-                        <fx:include fx:id="enumerator" source="Enumerator.fxml"/>
+                        <fx:include fx:id="enumerator" source="gui/Enumerator.fxml"/>
                     </content>
                 </Tab>
             </tabs>
