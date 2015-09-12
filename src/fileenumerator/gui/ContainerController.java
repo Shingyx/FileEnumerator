@@ -10,6 +10,8 @@ public class ContainerController {
 
     @FXML
     private EnumeratorController enumeratorController;
+    @FXML
+    private FolderCreationController folderCreationController;
 
     /**
      * Set up the controller for the main container.
@@ -20,7 +22,5 @@ public class ContainerController {
         // Set min window size
         stage.setMinHeight(480);
         stage.setMinWidth(640);
-
-        enumeratorController.setupController(stage);
     }
 }

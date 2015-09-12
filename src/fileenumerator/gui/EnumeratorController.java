@@ -3,7 +3,7 @@ package fileenumerator.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.File;
@@ -26,6 +25,8 @@ import java.util.List;
 public class EnumeratorController {
 
     @FXML
+    private Parent enumeratorContainer;
+    @FXML
     private ListView<File> fileListView;
     @FXML
     private TextField txtFilenameEditor;
@@ -36,21 +37,15 @@ public class EnumeratorController {
     private int lastCaretPos;
 
     /**
-     * Set up the GUI to have a minimum size, appropriate behaviour on file drag, and drag selection
-     * on the file list.
-     *
-     * @param stage The primary stage
+     * Initialise the tab to have appropriate behaviour on file drag and drag selection on the file list.
      */
-    public void setupController(Stage stage) {
+    @FXML
+    private void initialize() {
         files = FXCollections.observableArrayList();
         lastCaretPos = -1;
 
-        // Set min window size
-        stage.setMinHeight(480);
-        stage.setMinWidth(640);
-
         // Set up file dragging
-        setupFileDragging(stage.getScene());
+        setupFileDragging();
 
         // temp folder
         File testDir = new File("E:\\Desktop\\fileenumerator test files\\testing");
@@ -94,11 +89,9 @@ public class EnumeratorController {
 
     /**
      * Set a scene up so that files dragged into the scene will be loaded into the file list.
-     *
-     * @param scene The scene to change
      */
-    private void setupFileDragging(Scene scene) {
-        scene.setOnDragOver(event -> {
+    private void setupFileDragging() {
+        enumeratorContainer.setOnDragOver(event -> {
             Dragboard dragboard = event.getDragboard();
             if (dragboard.hasFiles()) {
                 event.acceptTransferModes(TransferMode.COPY);
@@ -106,7 +99,7 @@ public class EnumeratorController {
             event.consume();
         });
 
-        scene.setOnDragDropped(event -> {
+        enumeratorContainer.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
             if (dragboard.hasFiles()) {
                 for (File file : dragboard.getFiles()) {

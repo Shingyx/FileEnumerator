@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox minHeight="480.0" minWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fileenumerator.gui.EnumeratorController">
+<VBox fx:id="enumeratorContainer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fileenumerator.gui.EnumeratorController">
     <children>
         <SplitPane dividerPositions="0.4" VBox.vgrow="ALWAYS">
             <items>
